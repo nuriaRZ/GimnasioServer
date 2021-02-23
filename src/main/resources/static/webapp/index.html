@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <script>
+        /**
+         * Función que se encarga de realizar un petición AJAX para autenticar usuario y obtener un JWT
+         */
+        function autenticaUsuario() {
+            
+            var jsonObject = {
+                usuario: document.getElementById("usuario").value,  
+                password: document.getElementById("password").value
+            };
+
+            
+            console.log("u: " + jsonObject.usuario + " - p: " + jsonObject.password);
+
+            var xhttp = new XMLHttpRequest();
+
+            
+            xhttp.onreadystatechange = function () {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    document.getElementById("respuestaDelServidor").innerHTML = this.response;
+                }
+            };
+            
+            xhttp.open("POST", "http://localhost:8080/usuario/autentica", true);
+           
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+         
+            xhttp.send(JSON.stringify(jsonObject));
+        }
+    </script>
+</head>
+
+<body>
+    <form> <!-- Formulario con el mínimo necesario para enviar un usuario y pasword al servidor -->
+        <input type="text" id="usuario" value="nuria"/> <!-- Establezco valores válidos en usuario y pasword, para ahorrar tiempo -->
+        <input type="password" id="password" value="81dc9bdb52d04dc20036dbd8313ed055"/>
+        <button type="button" onclick="autenticaUsuario()">Autenticar</button>  <!-- El botón llama a la función autenticaUsuario. Mucho cuidado de utilizar <button> y no un <input type="submit"> -->
+    </form>
+    <div id="respuestaDelServidor"></div>
+</body>
+
+</html>
